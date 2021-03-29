@@ -759,6 +759,28 @@ const indy = {
     return [JSON.parse(credJson), revocId, JSON.parse(revocRegDelta)]
   },
 
+  async verifierVerifyProof(
+    verifierProofRequest,
+    proofJson,
+    schemasJson,
+    credentialDefsJson,
+    revocRegDefsJson,
+    revocRegsJson
+  ) {
+    if (Platform.OS === 'ios') {
+      throw new Error(`Unsupported operation! Platform: ${Platform.OS}`)
+    }
+    const valid = await IndySdk.verifierVerifyProof(
+      JSON.stringify(verifierProofRequest),
+      JSON.stringify(proofJson),
+      JSON.stringify(schemasJson),
+      JSON.stringify(credentialDefsJson),
+      revocRegDefsJson && JSON.stringify(revocRegDefsJson),
+      revocRegsJson && JSON.stringify(revocRegsJson)
+    )
+    return valid
+  },
+
   // blob_storage
 
   async openBlobStorageReader(type: string, tailsWriterConfig: TailsWriterConfig): Promise<BlobReaderHandle> {
